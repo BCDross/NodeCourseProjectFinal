@@ -1,5 +1,4 @@
 ﻿let bookGenre = "No genre selected.";
-// let userArray = [];
 let bookArray = [];
 
 // ctor for book objects
@@ -10,24 +9,7 @@ let BookObject = function(pTitle, pAuthor, pGenre, pPublishDate) {
   this.PublishDate = pPublishDate;
 };
 
-// ctor for user objects
-// let UserObject = function(pFirstName, pLastName, pEmail) {
-//   this.FirstName = pFirstName;
-//   this.LastName = pLastName;
-//   this.Email = pEmail;
-// };
-
 document.addEventListener("DOMContentLoaded", function() {
-  // document
-  //   .getElementById("btnCreateUser")
-  //   .addEventListener("click", function() {
-  //     let newUser = new UserObject(
-  //       document.getElementById("firstName").value,
-  //       document.getElementById("lastName").value,
-  //       document.getElementById("email").value
-  //     );
-  //     addNewUser(newUser);
-  //   });
 
   document.getElementById("btnAddBook").addEventListener("click", function() {
     let newBook = new BookObject(
@@ -94,38 +76,18 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 
   $(document).on("pagebeforeshow", "#bookDetailPage", function (event) {
+    GetBooksFromServer();
     let tempTitle = document.getElementById("TitleParam").innerHTML;
     for(let i = 0; i < bookArray.length; i++) {
       if(bookArray[i].Title = tempTitle){
-        document.getElementById("BookTitle").innerHTML = "The title is: " + bookArray[i].Title;
+        document.getElementById("BookTitle").innerHTML = "The title is: " + bookArray[i].Title.replace(/ /g,"+");
         document.getElementById("BookAuthor").innerHTML = "The author is: " + bookArray[i].Author;
         document.getElementById("BookGenre").innerHTML = "The genre is: " + bookArray[i].Genre;
         document.getElementById("BookDate").innerHTML = "The publish date is: " + bookArray[i].PublishDate;
       }
     }
   });
-
-  // $(document).on("pagebeforeshow", "#users", function(event) {
-  //   createUserList();
-  // });
 });
-
-// function createUserList() {
-//   //Clear the list
-//   let divUsers = document.getElementById("divUsers");
-//   while (divUsers.firstChild) {
-//     divUsers.removeChild(divUsers.firstChild);
-//   }
-
-//   let ul = document.createElement("ul");
-//   userArray.forEach(function(element) {
-//     let li = document.createElement("li");
-//     li.innerHTML =
-//       element.FirstName + " " + element.LastName + " " + element.Email;
-//     ul.appendChild(li);
-//   });
-//   divUsers.appendChild(ul);
-// }
 
 function createBookList() {
   let divBooks = document.getElementById("divBooks");
@@ -137,7 +99,7 @@ function createBookList() {
     let li = document.createElement("li");
     li.innerHTML =
       "<a data-transition='pop' class='book' data-parm=" +
-      element.Title +
+      element.Title.replace(/ /g,"+") +
       " href='#home'>Get Details </a> " +
       " " +
       element.Title + 
@@ -170,13 +132,13 @@ function createSearchList() {
   bookArray.forEach(function(element) {
     let li = document.createElement("li");
     li.innerHTML =
-      element.title +
+      element.Title +
       " " +
-      element.author +
+      element.Author +
       " " +
-      element.genre +
+      element.Genre +
       " " +
-      element.publishdate;
+      element.PublishDate;
     ul.appendChild(li);
   });
   divSearches.appendChild(ul);
@@ -196,7 +158,6 @@ function sortTitle(a, b) {
 }
 
 function sortGenre(a, b) {
-  // Use toUpperCase() to ignore character casing
   const bookA = a.Genre.toLowerCase();
   const bookB = b.Genre.toLowerCase();
 
@@ -210,7 +171,6 @@ function sortGenre(a, b) {
 }
 
 function sortAuthor(a, b) {
-  // Use toUpperCase() to ignore character casing
   const bookA = a.Author.toLowerCase();
   const bookB = b.Author.toLowerCase();
 
@@ -224,7 +184,6 @@ function sortAuthor(a, b) {
 }
 
 function sortRelease(a, b) {
-  // Use toUpperCase() to ignore character casing
   const bookA = a.PublishDate.toLowerCase();
   const bookB = b.PublishDate.toLowerCase();
 

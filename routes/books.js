@@ -13,46 +13,46 @@ let BookObject = function(pTitle, pAuthor, pGenre, pPublishDate) {
 
 // Starter list of books.
 serverBookArray.push(
-  new BookObject("The Way of Kings", "Brandon Sanderson", "Fantasy", "2011")
+  new BookObject("The Way of Kings", "Brandon Sanderson", "Fantasy", 2011)
 );
 serverBookArray.push(
-  new BookObject("Words of Radiance", "Brandon Sanderson", "Fantasy", "2014")
+  new BookObject("Words of Radiance", "Brandon Sanderson", "Fantasy", 2014)
 );
 serverBookArray.push(
-  new BookObject("Oathbringer", "Brandon Sanderson", "Fantasy", "2017")
+  new BookObject("Oathbringer", "Brandon Sanderson", "Fantasy", 2017)
 );
 serverBookArray.push(
-  new BookObject("Timegods' World", "LE Modesitt Jr.", "SciFi", "1985")
+  new BookObject("Timegods' World", "LE Modesitt Jr.", "SciFi", 1985)
 );
 serverBookArray.push(
-  new BookObject("The Forever Hero", "LE Modesitt Jr.", "SciFi", "1990")
+  new BookObject("The Forever Hero", "LE Modesitt Jr.", "SciFi", 1990)
 );
 serverBookArray.push(
-  new BookObject("The Black Company", "Glen Cook", "Fantasy", "1984")
+  new BookObject("The Black Company", "Glen Cook", "Fantasy", 1984)
 );
 serverBookArray.push(
-  new BookObject("Angels and Demons", "Dan Brown", "Fiction", "2000")
+  new BookObject("Angels and Demons", "Dan Brown", "Fiction", 2000)
 );
 serverBookArray.push(
-  new BookObject("The Da Vinci Code", "Dan Brown", "Fiction", "2002")
+  new BookObject("The Da Vinci Code", "Dan Brown", "Fiction", 2002)
 );
 serverBookArray.push(
-  new BookObject("The Lost Symbol", "Dan Brown", "Fiction", "2009")
+  new BookObject("The Lost Symbol", "Dan Brown", "Fiction", 2009)
 );
 serverBookArray.push(
-  new BookObject("Inferno", "Dan Brown", "Fiction", "2012")
+  new BookObject("Inferno", "Dan Brown", "Fiction", 2012)
 );
 serverBookArray.push(
-  new BookObject("Stranger in a strange land", "Robert Heinlein", "SciFi", "1960")
+  new BookObject("Stranger in a strange land", "Robert Heinlein", "SciFi", 1960)
 );
 serverBookArray.push(
-  new BookObject("Starship Troopers", "Robert Heinlein", "SciFi", "1965")
+  new BookObject("Starship Troopers", "Robert Heinlein", "SciFi", 1965)
 );
 serverBookArray.push(
-  new BookObject("The Hunt for Red October", "Tom Clancy", "Fiction", "1984")
+  new BookObject("The Hunt for Red October", "Tom Clancy", "Fiction", 1984)
 );
 serverBookArray.push(
-  new BookObject("Without Remorse", "Tom Clancy", "Fiction", "1988")
+  new BookObject("Without Remorse", "Tom Clancy", "Fiction", 1988)
 );
 
 /* POST to addBook */
@@ -63,7 +63,6 @@ router.post('/addBook', function(req, res) {
   //res.sendStatus(200);
   res.status(200).send(JSON.stringify('success'));
 });
-
 
 /* GET movieList. */
 router.get('/bookList', function(req, res) {
@@ -83,11 +82,4 @@ router.get('/bookList', function(req, res) {
    res.status(200).send(JSON.stringify('deleted successfully'));
 });
 
-
-//  router.???('/userlist', function(req, res) {
-//  users.update({name: 'foo'}, {name: 'bar'})
-
-
-
 module.exports = router;
-
