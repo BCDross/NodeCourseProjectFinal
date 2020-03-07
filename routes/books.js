@@ -55,27 +55,23 @@ serverBookArray.push(
   new BookObject("Without Remorse", "Tom Clancy", "Fiction", 1988)
 );
 
-/* POST to addBook */
 router.post('/addBook', function(req, res) {
   console.log(req.body);
   serverBookArray.push(req.body);
   console.log(serverBookArray);
-  //res.sendStatus(200);
   res.status(200).send(JSON.stringify('success'));
 });
 
-/* GET movieList. */
 router.get('/bookList', function(req, res) {
   res.json(serverBookArray);
  });
 
- /* DELETE to deleteMovie. */
  router.delete('/deleteBook/:Title', function(req, res) {
   let Title = req.params.Title;
-  Title = Title.toLowerCase();  // allow user to be careless about capitalization
+  Title = Title.toUpperCase();
   console.log('deleting ID: ' + Title);
    for(let i=0; i < serverBookArray.length; i++) {
-     if(Title == (serverBookArray[i].Title).toLowerCase()) {
+     if(Title == (serverBookArray[i].Title).toUpperCase()) {
      serverBookArray.splice(i,1);
      }
    }
