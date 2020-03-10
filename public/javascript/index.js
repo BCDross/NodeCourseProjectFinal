@@ -27,26 +27,26 @@ document.addEventListener("DOMContentLoaded", function() {
 
   document.getElementById("btnSortTitle").addEventListener("click", function() {
     bookArray = bookArray.sort(sortTitle);
-    createBookList();
+    createSearchList();
   });
 
   document.getElementById("btnSortGenre").addEventListener("click", function() {
     bookArray = bookArray.sort(sortGenre);
-    createBookList();
+    createSearchList();
   });
 
   document
     .getElementById("btnSortAuthor")
     .addEventListener("click", function() {
       bookArray = bookArray.sort(sortAuthor);
-      createBookList();
+      createSearchList();
     });
 
   document
     .getElementById("btnSortRelease")
     .addEventListener("click", function() {
       bookArray = bookArray.sort(sortRelease);
-      createBookList();
+      createSearchList();
     });
 
   document
@@ -68,18 +68,18 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
   $(document).on("pagebeforeshow", "#inventory", function(event) {
-    GetBooksFromServer();
+    GetBooksInventoryFromServer();
   });
 
   $(document).on("pagebeforeshow", "#search", function(event) {
-    GetBooksFromServer();
+    GetBooksSearchFromServer();
   });
 
   $(document).on("pagebeforeshow", "#bookDetailPage", function (event) {
-    GetBooksFromServer();
+    GetBooksInventoryFromServer();
     let tempTitle = document.getElementById("TitleParam").innerHTML;
     for(let i = 0; i < bookArray.length; i++) {
-      if(bookArray[i].Title = tempTitle){
+      if(bookArray[i].Title == tempTitle){
         document.getElementById("BookTitle").innerHTML = "The title is: " + bookArray[i].Title.replace(/ /g,"+");
         document.getElementById("BookAuthor").innerHTML = "The author is: " + bookArray[i].Author;
         document.getElementById("BookGenre").innerHTML = "The genre is: " + bookArray[i].Genre;
@@ -104,11 +104,7 @@ function createBookList() {
       " " +
       element.Title + 
       " " +
-      element.Author +
-      " " +
-      element.Genre +
-      " " +
-      element.PublishDate;
+      element.Genre;
     ul.appendChild(li);
   });
   divBooks.appendChild(ul);
@@ -184,8 +180,8 @@ function sortAuthor(a, b) {
 }
 
 function sortRelease(a, b) {
-  const bookA = a.PublishDate.toLowerCase();
-  const bookB = b.PublishDate.toLowerCase();
+  const bookA = a.PublishDate;
+  const bookB = b.PublishDate;
 
   let compare = 0;
   if (bookA > bookB) {
@@ -196,7 +192,7 @@ function sortRelease(a, b) {
   return compare;
 }
 
-function GetBooksFromServer() {
+function GetBooksInventoryFromServer() {
   fetch("/books/bookList")
     .then(function(theResponsePromise) {
       return theResponsePromise.json();
@@ -206,6 +202,22 @@ function GetBooksFromServer() {
       bookArray.length = 0;
       bookArray = serverData;
       createBookList();
+    })
+    .catch(function(err) {
+      console.log(err);
+    });
+}
+
+function GetBooksSearchFromServer() {
+  fetch("/books/bookList")
+    .then(function(theResponsePromise) {
+      return theResponsePromise.json();
+    })
+    .then(function(serverData) {
+      console.log(serverData);
+      bookArray.length = 0;
+      bookArray = serverData;
+      createSearchList();
     })
     .catch(function(err) {
       console.log(err);
