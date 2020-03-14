@@ -10,7 +10,6 @@ let BookObject = function(pTitle, pAuthor, pGenre, pPublishDate) {
 };
 
 document.addEventListener("DOMContentLoaded", function() {
-
   document.getElementById("btnAddBook").addEventListener("click", function() {
     let newBook = new BookObject(
       document.getElementById("title").value,
@@ -25,27 +24,59 @@ document.addEventListener("DOMContentLoaded", function() {
     bookGenre = $("#ddlGenre").val();
   });
 
-  document.getElementById("btnSortTitle").addEventListener("click", function() {
-    bookArray = bookArray.sort(sortTitle);
-    createSearchList();
-  });
-
-  document.getElementById("btnSortGenre").addEventListener("click", function() {
-    bookArray = bookArray.sort(sortGenre);
-    createSearchList();
-  });
-
   document
-    .getElementById("btnSortAuthor")
+    .getElementById("btnSortTitleAsc")
     .addEventListener("click", function() {
-      bookArray = bookArray.sort(sortAuthor);
+      bookArray = bookArray.sort(sortTitleAsc);
       createSearchList();
     });
 
   document
-    .getElementById("btnSortRelease")
+    .getElementById("btnSortGenreAsc")
     .addEventListener("click", function() {
-      bookArray = bookArray.sort(sortRelease);
+      bookArray = bookArray.sort(sortGenreAsc);
+      createSearchList();
+    });
+
+  document
+    .getElementById("btnSortAuthorAsc")
+    .addEventListener("click", function() {
+      bookArray = bookArray.sort(sortAuthorAsc);
+      createSearchList();
+    });
+
+  document
+    .getElementById("btnSortReleaseAsc")
+    .addEventListener("click", function() {
+      bookArray = bookArray.sort(sortReleaseAsc);
+      createSearchList();
+    });
+
+  document
+    .getElementById("btnSortTitleDesc")
+    .addEventListener("click", function() {
+      bookArray = bookArray.sort(sortTitleDesc);
+      createSearchList();
+    });
+
+  document
+    .getElementById("btnSortGenreDesc")
+    .addEventListener("click", function() {
+      bookArray = bookArray.sort(sortGenreDesc);
+      createSearchList();
+    });
+
+  document
+    .getElementById("btnSortAuthorDesc")
+    .addEventListener("click", function() {
+      bookArray = bookArray.sort(sortAuthorDesc);
+      createSearchList();
+    });
+
+  document
+    .getElementById("btnSortReleaseDesc")
+    .addEventListener("click", function() {
+      bookArray = bookArray.sort(sortReleaseDesc);
       createSearchList();
     });
 
@@ -75,15 +106,19 @@ document.addEventListener("DOMContentLoaded", function() {
     GetBooksSearchFromServer();
   });
 
-  $(document).on("pagebeforeshow", "#bookDetailPage", function (event) {
+  $(document).on("pagebeforeshow", "#bookDetailPage", function(event) {
     GetBooksInventoryFromServer();
     let tempTitle = document.getElementById("TitleParam").innerHTML;
-    for(let i = 0; i < bookArray.length; i++) {
-      if(bookArray[i].Title == tempTitle){
-        document.getElementById("BookTitle").innerHTML = "The title is: " + bookArray[i].Title.replace(/ /g,"+");
-        document.getElementById("BookAuthor").innerHTML = "The author is: " + bookArray[i].Author;
-        document.getElementById("BookGenre").innerHTML = "The genre is: " + bookArray[i].Genre;
-        document.getElementById("BookDate").innerHTML = "The publish date is: " + bookArray[i].PublishDate;
+    for (let i = 0; i < bookArray.length; i++) {
+      if (bookArray[i].Title == tempTitle) {
+        document.getElementById("BookTitle").innerHTML =
+          "The title is: " + bookArray[i].Title.replace(/ /g, "/%20");
+        document.getElementById("BookAuthor").innerHTML =
+          "The author is: " + bookArray[i].Author;
+        document.getElementById("BookGenre").innerHTML =
+          "The genre is: " + bookArray[i].Genre;
+        document.getElementById("BookDate").innerHTML =
+          "The publish date is: " + bookArray[i].PublishDate;
       }
     }
   });
@@ -99,10 +134,10 @@ function createBookList() {
     let li = document.createElement("li");
     li.innerHTML =
       "<a data-transition='pop' class='book' data-parm=" +
-      element.Title.replace(/ /g,"+") +
+      element.Title.replace(/ /g, "+") +
       " href='#home'>Get Details </a> " +
       " " +
-      element.Title + 
+      element.Title +
       " " +
       element.Genre;
     ul.appendChild(li);
@@ -140,7 +175,7 @@ function createSearchList() {
   divSearches.appendChild(ul);
 }
 
-function sortTitle(a, b) {
+function sortTitleAsc(a, b) {
   const bookA = a.Title.toLowerCase();
   const bookB = b.Title.toLowerCase();
 
@@ -153,7 +188,20 @@ function sortTitle(a, b) {
   return compare;
 }
 
-function sortGenre(a, b) {
+function sortTitleDesc(a, b) {
+  const bookA = a.Title.toLowerCase();
+  const bookB = b.Title.toLowerCase();
+
+  let compare = 0;
+  if (bookA < bookB) {
+    compare = 1;
+  } else if (bookA > bookB) {
+    compare = -1;
+  }
+  return compare;
+}
+
+function sortGenreAsc(a, b) {
   const bookA = a.Genre.toLowerCase();
   const bookB = b.Genre.toLowerCase();
 
@@ -166,7 +214,20 @@ function sortGenre(a, b) {
   return compare;
 }
 
-function sortAuthor(a, b) {
+function sortGenreDesc(a, b) {
+  const bookA = a.Genre.toLowerCase();
+  const bookB = b.Genre.toLowerCase();
+
+  let compare = 0;
+  if (bookA < bookB) {
+    compare = 1;
+  } else if (bookA > bookB) {
+    compare = -1;
+  }
+  return compare;
+}
+
+function sortAuthorAsc(a, b) {
   const bookA = a.Author.toLowerCase();
   const bookB = b.Author.toLowerCase();
 
@@ -179,7 +240,20 @@ function sortAuthor(a, b) {
   return compare;
 }
 
-function sortRelease(a, b) {
+function sortAuthorDesc(a, b) {
+  const bookA = a.Author.toLowerCase();
+  const bookB = b.Author.toLowerCase();
+
+  let compare = 0;
+  if (bookA < bookB) {
+    compare = 1;
+  } else if (bookA > bookB) {
+    compare = -1;
+  }
+  return compare;
+}
+
+function sortReleaseAsc(a, b) {
   const bookA = a.PublishDate;
   const bookB = b.PublishDate;
 
@@ -187,6 +261,19 @@ function sortRelease(a, b) {
   if (bookA > bookB) {
     compare = 1;
   } else if (bookA < bookB) {
+    compare = -1;
+  }
+  return compare;
+}
+
+function sortReleaseDesc(a, b) {
+  const bookA = a.PublishDate;
+  const bookB = b.PublishDate;
+
+  let compare = 0;
+  if (bookA < bookB) {
+    compare = 1;
+  } else if (bookA > bookB) {
     compare = -1;
   }
   return compare;
