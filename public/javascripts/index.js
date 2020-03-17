@@ -24,28 +24,60 @@ document.addEventListener("DOMContentLoaded", function() {
     bookGenre = $("#ddlGenre").val();
   });
 
-  document.getElementById("btnSortTitle").addEventListener("click", function() {
-    bookArray = bookArray.sort(sortTitle);
-    createBookList();
-  });
-
-  document.getElementById("btnSortGenre").addEventListener("click", function() {
-    bookArray = bookArray.sort(sortGenre);
-    createBookList();
-  });
-
   document
-    .getElementById("btnSortAuthor")
+    .getElementById("btnSortTitleAsc")
     .addEventListener("click", function() {
-      bookArray = bookArray.sort(sortAuthor);
-      createBookList();
+      bookArray = bookArray.sort(sortTitleAsc);
+      createSearchList();
     });
 
   document
-    .getElementById("btnSortRelease")
+    .getElementById("btnSortGenreAsc")
     .addEventListener("click", function() {
-      bookArray = bookArray.sort(sortRelease);
-      createBookList();
+      bookArray = bookArray.sort(sortGenreAsc);
+      createSearchList();
+    });
+
+  document
+    .getElementById("btnSortAuthorAsc")
+    .addEventListener("click", function() {
+      bookArray = bookArray.sort(sortAuthorAsc);
+      createSearchList();
+    });
+
+  document
+    .getElementById("btnSortReleaseAsc")
+    .addEventListener("click", function() {
+      bookArray = bookArray.sort(sortReleaseAsc);
+      createSearchList();
+    });
+
+  document
+    .getElementById("btnSortTitleDesc")
+    .addEventListener("click", function() {
+      bookArray = bookArray.sort(sortTitleDesc);
+      createSearchList();
+    });
+
+  document
+    .getElementById("btnSortGenreDesc")
+    .addEventListener("click", function() {
+      bookArray = bookArray.sort(sortGenreDesc);
+      createSearchList();
+    });
+
+  document
+    .getElementById("btnSortAuthorDesc")
+    .addEventListener("click", function() {
+      bookArray = bookArray.sort(sortAuthorDesc);
+      createSearchList();
+    });
+
+  document
+    .getElementById("btnSortReleaseDesc")
+    .addEventListener("click", function() {
+      bookArray = bookArray.sort(sortReleaseDesc);
+      createSearchList();
     });
 
   document
@@ -74,14 +106,22 @@ document.addEventListener("DOMContentLoaded", function() {
     GetBooksFromServer();
   });
 
-  $(document).on("pagebeforeshow", "#bookInfo", function (event) {
+  $(document).on("pagebeforeshow", "#bookDetailPage", function(event) {
+    GetBooksInventoryFromServer();
     let tempTitle = document.getElementById("TitleParam").innerHTML;
-    bookArray.forEach(function(element) {
-      let li = document.createElement("li");
-      li.innerHTML = element.Title + " " + element.Author + " " + element.Genre + " " + element.PublishDate;
-    })
+    for (let i = 0; i < bookArray.length; i++) {
+      if (bookArray[i].Title == tempTitle) {
+        document.getElementById("BookTitle").innerHTML =
+          "The title is: " + bookArray[i].Title.replace(/ /g, "/%20");
+        document.getElementById("BookAuthor").innerHTML =
+          "The author is: " + bookArray[i].Author;
+        document.getElementById("BookGenre").innerHTML =
+          "The genre is: " + bookArray[i].Genre;
+        document.getElementById("BookDate").innerHTML =
+          "The publish date is: " + bookArray[i].PublishDate;
+      }
+    }
   });
-
 });
 
 function createBookList() {
@@ -94,16 +134,12 @@ function createBookList() {
     let li = document.createElement("li");
     li.innerHTML =
       "<a data-transition='pop' class='book' data-parm=" +
-      element.Title +
+      element.Title.replace(/ /g, "+") +
       " href='#home'>Get Details </a> " +
       " " +
-      element.Title + 
+      element.Title +
       " " +
-      element.Author +
-      " " +
-      element.Genre +
-      " " +
-      element.PublishDate;
+      element.Genre;
     ul.appendChild(li);
   });
   divBooks.appendChild(ul);
@@ -139,9 +175,9 @@ function createSearchList() {
   divSearches.appendChild(ul);
 }
 
-function sortTitle(a, b) {
-  const bookA = a.Title.toUpperCase();
-  const bookB = b.Title.toUpperCase();
+function sortTitleAsc(a, b) {
+  const bookA = a.Title.toLowerCase();
+  const bookB = b.Title.toLowerCase();
 
   let compare = 0;
   if (bookA > bookB) {
@@ -152,9 +188,22 @@ function sortTitle(a, b) {
   return compare;
 }
 
-function sortGenre(a, b) {
-  const bookA = a.Genre.toUpperCase();
-  const bookB = b.Genre.toUpperCase();
+function sortTitleDesc(a, b) {
+  const bookA = a.Title.toLowerCase();
+  const bookB = b.Title.toLowerCase();
+
+  let compare = 0;
+  if (bookA < bookB) {
+    compare = 1;
+  } else if (bookA > bookB) {
+    compare = -1;
+  }
+  return compare;
+}
+
+function sortGenreAsc(a, b) {
+  const bookA = a.Genre.toLowerCase();
+  const bookB = b.Genre.toLowerCase();
 
   let compare = 0;
   if (bookA > bookB) {
@@ -165,9 +214,22 @@ function sortGenre(a, b) {
   return compare;
 }
 
-function sortAuthor(a, b) {
-  const bookA = a.Author.toUpperCase();
-  const bookB = b.Author.toUpperCase();
+function sortGenreDesc(a, b) {
+  const bookA = a.Genre.toLowerCase();
+  const bookB = b.Genre.toLowerCase();
+
+  let compare = 0;
+  if (bookA < bookB) {
+    compare = 1;
+  } else if (bookA > bookB) {
+    compare = -1;
+  }
+  return compare;
+}
+
+function sortAuthorAsc(a, b) {
+  const bookA = a.Author.toLowerCase();
+  const bookB = b.Author.toLowerCase();
 
   let compare = 0;
   if (bookA > bookB) {
@@ -178,7 +240,20 @@ function sortAuthor(a, b) {
   return compare;
 }
 
-function sortRelease(a, b) {
+function sortAuthorDesc(a, b) {
+  const bookA = a.Author.toLowerCase();
+  const bookB = b.Author.toLowerCase();
+
+  let compare = 0;
+  if (bookA < bookB) {
+    compare = 1;
+  } else if (bookA > bookB) {
+    compare = -1;
+  }
+  return compare;
+}
+
+function sortReleaseAsc(a, b) {
   const bookA = a.PublishDate;
   const bookB = b.PublishDate;
 
@@ -191,7 +266,20 @@ function sortRelease(a, b) {
   return compare;
 }
 
-function GetBooksFromServer() {
+function sortReleaseDesc(a, b) {
+  const bookA = a.PublishDate;
+  const bookB = b.PublishDate;
+
+  let compare = 0;
+  if (bookA < bookB) {
+    compare = 1;
+  } else if (bookA > bookB) {
+    compare = -1;
+  }
+  return compare;
+}
+
+function GetBooksInventoryFromServer() {
   fetch("/books/bookList")
     .then(function(theResponsePromise) {
       return theResponsePromise.json();
@@ -201,6 +289,22 @@ function GetBooksFromServer() {
       bookArray.length = 0;
       bookArray = serverData;
       createBookList();
+    })
+    .catch(function(err) {
+      console.log(err);
+    });
+}
+
+function GetBooksSearchFromServer() {
+  fetch("/books/bookList")
+    .then(function(theResponsePromise) {
+      return theResponsePromise.json();
+    })
+    .then(function(serverData) {
+      console.log(serverData);
+      bookArray.length = 0;
+      bookArray = serverData;
+      createSearchList();
     })
     .catch(function(err) {
       console.log(err);
